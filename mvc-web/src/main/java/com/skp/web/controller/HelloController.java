@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSONObject;
 import com.skp.dao.VerificationDao;
 import com.skp.model.VerificationDO;
+import com.skp.redis.RedisKey;
+import com.skp.redis.RedisUtils;
 
 //@Controller
 @RestController
@@ -60,6 +62,10 @@ public class HelloController extends BaseController {
         result.put("success", true);
         result.put("verficationCode", num);
         result.put("msg", "有效期10分钟");
+
+        String telKey = String.format(RedisKey.MOBILE_KEY, tel);
+        RedisUtils.set(telKey, num + "", 600);
+
         VerificationDO verfication = new VerificationDO();
         verfication.setTel(tel);
         verfication.setVerification(num);
