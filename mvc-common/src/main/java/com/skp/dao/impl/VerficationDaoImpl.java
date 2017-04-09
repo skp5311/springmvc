@@ -34,7 +34,7 @@ public class VerficationDaoImpl extends BaseHibernateDaoImpl implements Verifica
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public int countByTel(String tel) {
-        String sql = "select count(*) from " + CLASS_NAME + " where tel=? where to_days(create_time) = to_days(now()) ";
+        String sql = "select count(*) from " + CLASS_NAME + " where tel=? and to_days(create_time) = to_days(now()) ";
         List<Long> clist = (List<Long>) getHibernateTemplate().find(sql, tel);
         return clist != null ? clist.get(0).intValue() : 0;
     }

@@ -77,16 +77,23 @@ public class HelloController extends BaseController {
             result.put("msg", "验证码不存在");
             return result;
         }
-        Date date = new Date();
-        long m = 0;
-        m = date.getTime() - verifiDO.getCreateTime().getTime();
-        long minutes = (m % (1000 * 60 * 60)) / (1000 * 60);
-        if (minutes > 10) {
+
+        if (verficationCode == verifiDO.getVerification()) {
+            Date date = new Date();
+            long m = 0;
+            m = date.getTime() - verifiDO.getCreateTime().getTime();
+            long minutes = (m % (1000 * 60 * 60)) / (1000 * 60);
+            if (minutes > 10) {
+                result.put("success", false);
+                result.put("msg", "验证码失效");
+            } else {
+
+                result.put("success", true);
+                result.put("msg", "通过验证");
+            }
+        } else {
             result.put("success", false);
-            result.put("msg", "验证码失效");
-        } else if (verficationCode == verifiDO.getVerification()) {
-            result.put("success", true);
-            result.put("msg", "通过验证");
+            result.put("msg", "验证错误");
         }
         return result;
 
