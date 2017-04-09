@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-1-18 16:30:05 by Hibernate Tools 5.2.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.skp.model.TAddress" table="t_address" catalog="book" optimistic-lock="version">
+        <id name="addrId" type="string">
+            <column name="AddrId" length="32" />
+            <generator class="assigned" />
+        </id>
+        <property name="userId" type="string">
+            <column name="UserId" length="32" />
+        </property>
+        <property name="consignee" type="string">
+            <column name="Consignee" length="32" />
+        </property>
+        <property name="mobile" type="string">
+            <column name="Mobile" length="11" />
+        </property>
+        <property name="province" type="string">
+            <column name="Province" length="32" />
+        </property>
+        <property name="city" type="string">
+            <column name="City" length="32" />
+        </property>
+        <property name="county" type="string">
+            <column name="County" length="32" />
+        </property>
+        <property name="village" type="string">
+            <column name="Village" length="32" />
+        </property>
+        <property name="street" type="string">
+            <column name="Street" length="100" />
+        </property>
+        <property name="postalCode" type="string">
+            <column name="PostalCode" length="32" />
+        </property>
+        <property name="isdefault" type="string">
+            <column name="ISDefault" length="2" />
+        </property>
+        <property name="status" type="java.lang.Integer">
+            <column name="Status" />
+        </property>
+    </class>
+</hibernate-mapping>

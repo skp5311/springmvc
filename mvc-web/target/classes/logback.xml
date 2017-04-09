@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<property name="LOG_HOME" value="/data/logs/mvc-web" />
+	<property name="queueSize" value="512" />
+	<property name="maxHistory" value="15" />
+
+	<appender name="api" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${LOG_HOME}/api.log</File>
+		<Append>true</Append>
+		<encoder>
+			<pattern>%date{ISO8601} %thread %logger %M %5p %m%n</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_HOME}/api.log.%d{yyyy-MM-dd}</fileNamePattern>
+			<maxHistory>${maxHistory}</maxHistory>
+		</rollingPolicy>
+	</appender>
+
+
+	<!-- RollingFileAppender 分割日志 -->
+
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<Target>System.out</Target>
+		<encoder>
+			<pattern>%date{ISO8601} %thread %logger %5p %m%n</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+	</appender>
+
+	<!-- AsyncAppender 异步日志 -->
+	<appender name="ASYNC_console" class="ch.qos.logback.classic.AsyncAppender">
+		<discardingThreshold>0</discardingThreshold>
+		<queueSize>${queueSize}</queueSize>
+		<appender-ref ref="CONSOLE" />
+	</appender>
+
+	<logger name="com.skp.web.controller" level="INFO">
+	    <appender-ref ref="api"/>
+	</logger>
+	
+	<logger name="spring-aop" level="INFO">
+	    <appender-ref ref="api"/>
+	</logger>
+
+<!-- 	<logger name="com" additivity="false" level="INFO">
+		<appender-ref ref="CONSOLE" />
+	</logger> -->
+
+	<logger name="org" additivity="false" level="INFO">
+		<appender-ref ref="CONSOLE" />
+	</logger>
+
+	<root level="INFO">
+		<appender-ref ref="ASYNC_console" />
+	</root>
+</configuration>

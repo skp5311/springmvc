@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx.xsd">
+	
+	<!-- 分库分表的datasource -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init"
+		destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+
+		<property name="initialSize" value="1" />
+		<property name="minIdle" value="1" />
+		<property name="maxActive" value="20" />
+
+		<property name="maxWait" value="5000" />
+
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+
+		<property name="validationQuery" value="SELECT 'x'" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="true" />
+		<property name="testOnReturn" value="false" />
+
+		<property name="filters" value="stat" />
+	</bean>
+	
+	<!-- 配置sessionFactory -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+	 	<property name="dataSource" ref="dataSource" />
+		<property name="hibernateProperties">
+			<props>
+				<!--配置Hibernate的方言--> 
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<!-- 配置输出sql -->
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<!-- 是否格式化sql -->
+				<prop key="hibernate.format.sql">${hibernate.format.sql}</prop>
+				<!-- 是否使用注释  -->  
+				<prop key="hibernate.use_sql_comments">${hibernate.use_sql_comments}</prop> 
+				<prop key="hibernate.connection.autocommit">${hibernate.connection.autocommit}</prop>
+				<prop key="hibernate.current_session_context_class">
+					${hibernate.current_session_context_class}
+				</prop>
+				<prop key="hibernate.jdbc.batch_size">${hibernate.jdbc.batch_size}</prop>
+				<prop key="hibernate.connection.useUnicode">${hibernate.connection.useUnicode}</prop>
+				<prop key="hibernate.connection.characterEncoding">${hibernate.connection.characterEncoding}</prop>
+			</props>
+		</property>
+		<!--自动扫描实体   xx.hbm.xml -->    
+        <!-- <property name="packagesToScan"  value="com.dangdang.model" /> -->  
+        <property name="mappingLocations">               
+        	<list>  
+                <value>classpath:/com/skp/model/*.hbm.xml</value>  
+             </list>  
+        </property>  
+	</bean>
+
+
+	<!-- 配置事务管理器 -->
+	<bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<!-- 用注解来实现事务管理 -->    
+   	<tx:annotation-driven transaction-manager="transactionManager"/>
+   	
+   	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
+    	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+</beans>

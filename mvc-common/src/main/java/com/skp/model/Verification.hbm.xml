@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-1-18 16:30:05 by Hibernate Tools 5.2.0.CR1 -->
+<hibernate-mapping>
+	<class name="com.skp.model.VerificationDO" table="verification"
+		catalog="book" optimistic-lock="version">
+		<id name="id" type="int">
+			<column name="id" />
+			<generator class="identity" />
+		</id>
+		<property name="tel" type="string">
+			<column name="tel" length="20" />
+		</property>
+		<property name="verification" type="int">
+			<column name="verification" length="11" />
+		</property>
+		<property name="createTime" type="java.util.Date">
+			<column name="create_time"  sql-type="java.sql.Date"/>
+		</property>
+	</class>
+</hibernate-mapping>
