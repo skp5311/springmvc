@@ -32,7 +32,7 @@
 
 		<property name="filters" value="stat" />
 	</bean>
-	
+	<!-- hibernate start~~~~~~~~~~ -->
 	<!-- 配置sessionFactory -->
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
 	 	<property name="dataSource" ref="dataSource" />
@@ -75,5 +75,110 @@
    	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
     	<property name="sessionFactory" ref="sessionFactory"/>
     </bean>
-    
+    <!-- hibernate end~~~~~~~~~~ -->
+    <!-- mybatis start~~~~~~~~~~ -->
+    <bean id="dataSource1" parent="dataSource">
+		<property name="url" value="${jdbc.1.url}" />
+		<property name="username" value="${jdbc.1.username}" />
+		<property name="password" value="${jdbc.1.password}" />
+	</bean>
+	
+	<bean id="dataSource2" parent="dataSource">
+		<property name="url" value="${jdbc.2.url}" />
+		<property name="username" value="${jdbc.2.username}" />
+		<property name="password" value="${jdbc.2.password}" />
+	</bean>
+	
+	<bean id="dataSource3" parent="dataSource">
+		<property name="url" value="${jdbc.3.url}" />
+		<property name="username" value="${jdbc.3.username}" />
+		<property name="password" value="${jdbc.3.password}" />
+	</bean>
+	
+	<bean id="dataSource4" parent="dataSource">
+		<property name="url" value="${jdbc.4.url}" />
+		<property name="username" value="${jdbc.4.username}" />
+		<property name="password" value="${jdbc.4.password}" />
+	</bean>
+	
+	<bean id="dataSource5" parent="dataSource">
+		<property name="url" value="${jdbc.5.url}" />
+		<property name="username" value="${jdbc.5.username}" />
+		<property name="password" value="${jdbc.5.password}" />
+	</bean>
+	
+	<bean id="dataSource6" parent="dataSource">
+		<property name="url" value="${jdbc.6.url}" />
+		<property name="username" value="${jdbc.6.username}" />
+		<property name="password" value="${jdbc.6.password}" />
+	</bean>
+	
+	<bean id="dataSource7" parent="dataSource">
+		<property name="url" value="${jdbc.7.url}" />
+		<property name="username" value="${jdbc.7.username}" />
+		<property name="password" value="${jdbc.7.password}" />
+	</bean>
+	
+	<bean id="dataSource4Idback" parent="dataSource">
+		<property name="url" value="${jdbc.idback.url}" />
+		<property name="username" value="${jdbc.idback.username}" />
+		<property name="password" value="${jdbc.idback.password}" />
+	</bean>
+
+	<!-- mybatis3与spring整合 -->
+	
+	<bean id="sqlSessionFactory0" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<bean id="sqlSessionFactory1" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+		<property name="dataSource" ref="dataSource1" />
+	</bean>
+	<bean id="sqlSessionFactory2" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+		<property name="dataSource" ref="dataSource2" />
+	</bean>
+	<bean id="sqlSessionFactory3" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+		<property name="dataSource" ref="dataSource3" />
+	</bean>
+	<bean id="sqlSessionFactory4" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+		<property name="dataSource" ref="dataSource4" />
+	</bean>
+	<bean id="sqlSessionFactory5" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+		<property name="dataSource" ref="dataSource5" />
+	</bean>
+	<bean id="sqlSessionFactory6" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+		<property name="dataSource" ref="dataSource6" />
+	</bean>
+	<bean id="sqlSessionFactory7" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+		<property name="dataSource" ref="dataSource7" />
+	</bean>
+	<bean id="sqlSessionFactoryIdBackup" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+		<property name="dataSource" ref="dataSource4Idback" />
+	</bean>
+
+	<bean id="sessionMutilSourceDaoSupport" class="com.skp.base.dao.SqlSessionMutilSourceDaoSupport">
+		<property name="sessionFactoryList" >
+			<list>
+				<ref bean="sqlSessionFactory0"/>
+				<ref bean="sqlSessionFactory1"/>
+				<ref bean="sqlSessionFactory2"/>
+				<ref bean="sqlSessionFactory3"/>
+				<ref bean="sqlSessionFactory4"/>
+				<ref bean="sqlSessionFactory5"/>
+				<ref bean="sqlSessionFactory6"/>
+				<ref bean="sqlSessionFactory7"/>
+			</list>
+		</property>
+		<property name="tableCount" value="${jdbc.tableCount}" />
+		<property name="sqlSessionFactoryIdBackup" ref="sqlSessionFactoryIdBackup" />
+	</bean>
+	 <!-- mybatis end~~~~~~~~~~ -->
 </beans>

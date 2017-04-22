@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.skp.dao.Mobile2UidMapper">
+  <resultMap id="BaseResultMap" type="com.skp.entity.Mobile2Uid">
+	<constructor>
+	    <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+	    <arg column="mobile_no" jdbcType="VARCHAR" javaType="java.lang.String" />
+	    <arg column="uid" jdbcType="TINYINT" javaType="java.lang.Integer"/>
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id,uid, mobile_no
+  </sql>
+  
+  
+  <select id="queryOneByMobile" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from mobile2uid
+    where mobileNo = #{mobileNo,jdbcType=VARCHAR}
+  </select>
+  
+  
+   <insert id="insert" parameterType="com.skp.entity.Mobile2Uid">
+    insert into mobile2uid
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="mobileNo != null">
+        mobile_no,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="mobileNo != null">
+        #{mobileNo,jdbcType=VARCHAR},
+      </if>
+      
+    </trim>
+  </insert>
+  
+  
+ 
+</mapper>
